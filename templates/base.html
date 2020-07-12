@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    {% endblock title %}
+</head>
+
+<body>
+    
+    {% include "partials/header.html" %}
+    <br>
+    <br>
+    <br>
+    {% block content %}
+    <!--extends 사용하셔서 base.html 받으시면 여기에 내용이 들어갑니다!-->
+    {% endblock content %}
+    <br>
+    <br>
+    {% include "partials/footer.html" %}
+</body>
+
+</html>

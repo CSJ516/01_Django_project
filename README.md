@@ -1,1 +1,1 @@
-# 01_Django_project
+# Web project
