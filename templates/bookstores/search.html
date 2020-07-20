@@ -1,58 +1,51 @@
 {% extends 'base.html' %}
 
-{% block title %}search.html{% endblock title %}
+{% block title %}<title>search.html</title>{% endblock title %}
 
 {% block content %}
 
-    <br>
-
-    <h2>동네 책방</h2>
-
-    {% comment %} 검색기능 {% endcomment %}
-    <div>
-        <form action="/bookstores/search/" method='GET'>
-            <input type='search' name='q' value='{{ q }}'>
-            <input type='submit' value='검색'>
+    <div class="text-center mt-10 mb-10 font-medium text-3xl self-center">
+        <form class="content-center" action="/bookstores/search/" method='GET'>
+            {% csrf_token %}
+            <input type='search' name='q' value='{{ q }}' class=" container bg-gray-100 appearance-none border-2 border-gray-200 shadow-lg focus:outline-none focus:bg-white focus:border-green-500 rounded px-2 mr-4 w-1/4 ">
+            <input type='Submit' value="" name="Submit" class="container w-8 h-8 cursor-pointer bg-center bg-cover transparent hover:bg-green-500 focus:border-green-500" style="background-image:url(https://imageog.flaticon.com/icons/png/512/71/71403.png?size=1200x630f&pad=10,10,10,10&ext=png&bg=FFFFFFFF)">
         </form>
     </div>
-    
+
     {% comment %} 책방 사진 / 이미지 크기 조정 {% endcomment %}
-    <div>
-        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTA2MTZfODEg%2FMDAxNTYwNjkzMzAyMjQ5.LNZod6LIfNBkWv4Q0AQlUJLPoj4RQf2JxpsEP4hP2aUg.mc3Gyi8KLzgxe4gHftptBpsSMvZV2N9rf-Qe6wwf8uwg.JPEG.2519yk%2F20190616_135909.jpg&type=b400" style="width:300px; height:300px;">
-    </div>
-
-    {% comment %} 제보하기 {% endcomment %}
-    <input type="button" value="제보하기" onclick="location.href='http://127.0.0.1:8000/bookstores/create'">
-
-    {% if search %}
-
-        <table class='table'>
-            <thead>
-                <tr>
-                    <th>서점</th>
-                    <th>주소</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for bookstore in search %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'bookstores:detail' bookstore.pk %}">
-                            {{bookstore.bookstoreName}}
-                            </a>
-                        </td>
-                        <td>{{bookstore.bookstoreAddress}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
-
-    {% else %}
-
-        결과를 찾을 수 없습니다.
-
-    {% endif %}
+    <div class="container content-center justify-center items-center pl-25vh"><!--이미지 부터 전체 상자-->
+        <div class="container ml-25vh w-8/12 h-75vh mb-4 bg-cover bg-center ml-10 rounded-xl" style="background-image:url(https://pbs.twimg.com/media/CoTDL4vUsAEaJc0?format=jpg&name=large)">
+        </div>
+        <div class="mt-20"><!--시작!-->
+            <div class="text-3xl ml-25vh"><h2>동네 책방</h2></div>
+            <div class="mr"><!--Table div-->
+                <table class='mt-12 w-8/12 ml-25vh'>
+                    <tbody class="bg-gray-100 shadow-lg">
+                        {% if search %}
+                        {% for bookstore in search %}
+                            <tr>
+                                <th rowspan=2 class="w-25vh rounded-full">
+                                    <a href="{% url 'bookstores:detail' bookstore.pk %}">
+                                    <img src = "{{bookstore.bookstorePic.url}}"></a>
+                                </th>
+                                <td class="font-bold pl-4 pt-5">
+                                    <a href="{% url 'bookstores:detail' bookstore.pk %}">
+                                    {{bookstore.bookstoreName}}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pb-10 pl-4">{{bookstore.bookstoreAddress}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div><!--Table div 끝! -->
+            {% else %}
+                <br>
+                <p class="text-3xl font-thin text-red-400 text ml-25vh"> 결과를 찾을 수 없습니다. </p>
+                <br>
+            {% endif %}
 
     {% comment %} 페이징 작업 {% endcomment %}
     {% if is_paginated %}
